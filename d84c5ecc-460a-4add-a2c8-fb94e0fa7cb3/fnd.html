@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extract query parameters from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get('user');
+            const password = urlParams.get('pass');
+
+            // URL for data.json
+            const dataUrl = 'https://api.novacore.app/d84c5ecc-460a-4add-a2c8-fb94e0fa7cb3/data.json';
+
+            // Fetch the data.json
+            fetch(dataUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Check if the username and password exist in the JSON data
+                    const user = data.find(user => user.username === username && user.password === password);
+
+                    if (user) {
+                        // Redirect to a success page
+                        window.location.href = 'success.html'; // Replace with your success page URL
+                    } else {
+                        // Redirect to an error page
+                        window.location.href = 'error.html'; // Replace with your error page URL
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    window.location.href = 'error.html'; // Redirect to error page on fetch failure
+                });
+        });
+    </script>
+</head>
+<body>
+    <!-- You can add a loading indicator or message here if needed -->
+    <p>Loading...</p>
+</body>
+</html>
